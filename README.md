@@ -1,2 +1,2 @@
 # torneo-padelv2
-Agiornamento della prima app funzionante sulla parte grafica UI
+Update with a new UI ready for mobile app
