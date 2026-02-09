@@ -1,6 +1,0 @@
-streamlit
-pandas
-xlsxwriter
-ortools==9.8.3296
-matplotlib
-
