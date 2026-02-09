@@ -1,4 +1,4 @@
-print("USO LOGICA 8 TURNI v1.0")
+print("USO LOGICA 11 TURNI v1.0")
 
 from ortools.sat.python import cp_model
 import pandas as pd
@@ -17,12 +17,10 @@ def build_model(n_turns: int):
             for g in range(N_GROUPS):
                 x[p, t, g] = model.NewBoolVar(f"x_{p}_{t}_{g}")
 
-    # 1 gruppo per turno
     for p in range(N_PLAYERS):
         for t in range(n_turns):
             model.Add(sum(x[p, t, g] for g in range(N_GROUPS)) == 1)
 
-    # 4 giocatori per gruppo
     for t in range(n_turns):
         for g in range(N_GROUPS):
             model.Add(sum(x[p, t, g] for p in range(N_PLAYERS)) == GROUP_SIZE)
@@ -82,12 +80,6 @@ def add_constraints(model, x, n_turns):
             )
             model.Add(comp[j][i] == comp[i][j])
 
-    # VINCOLO DURO: massimo 1 compagno totale
-    for i in range(N_PLAYERS):
-        for j in range(i + 1, N_PLAYERS):
-            model.Add(comp[i][j] <= 1)
-
-
     # STESSO GRUPPO
     same_group = {}
     for i in range(N_PLAYERS):
@@ -141,26 +133,26 @@ def add_constraints(model, x, n_turns):
             )
             model.Add(opp[j][i] == opp[i][j])
 
-    # VINCOLO DURO: massimo 3 avversari
+    # VINCOLO DURO: massimo 4 avversari
     for i in range(N_PLAYERS):
         for j in range(i + 1, N_PLAYERS):
-            model.Add(opp[i][j] <= 3)
+            model.Add(opp[i][j] <= 4)
 
     # OBIETTIVO: minimizzare ripetizioni
     model.Minimize(
-        sum(comp[i][j] for i in range(N_PLAYERS) for j in range(i + 1, N_PLAYERS)) +
+        3 * sum(comp[i][j] for i in range(N_PLAYERS) for j in range(i + 1, N_PLAYERS)) +
         sum(opp[i][j] for i in range(N_PLAYERS) for j in range(i + 1, N_PLAYERS))
     )
 
     return pair
 
 
-def solve_draft12(names, num_turni=8):
+def solve_draft12(names, num_turni=11):
     model, x = build_model(num_turni)
     pair = add_constraints(model, x, num_turni)
 
     solver = cp_model.CpSolver()
-    solver.parameters.max_time_in_seconds = 60
+    solver.parameters.max_time_in_seconds = 90
     solver.parameters.num_search_workers = 8
 
     result = solver.Solve(model)
