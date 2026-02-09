@@ -1,0 +1,100 @@
+/* ---------------------------------------------------------
+   CARD GENERICA
+--------------------------------------------------------- */
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 16px;
+    border: 1px solid #e5e5ea;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+/* ---------------------------------------------------------
+   MATCH CARD
+--------------------------------------------------------- */
+.match-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 14px;
+    border: 1px solid #e5e5ea;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.match-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1c1c1e;
+    margin-bottom: 8px;
+}
+
+.match-team {
+    font-size: 15px;
+    color: #3a3a3c;
+    margin-bottom: 4px;
+}
+
+.match-result {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #007aff;
+}
+
+/* ---------------------------------------------------------
+   TOOLBAR
+--------------------------------------------------------- */
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.toolbar button {
+    background: #007aff;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.toolbar button:hover {
+    background: #005fcc;
+}
+
+/* ---------------------------------------------------------
+   CLASSIFICA
+--------------------------------------------------------- */
+.classifica-row {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border: 1px solid #e5e5ea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.classifica-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c1c1e;
+}
+
+.classifica-points {
+    font-size: 16px;
+    font-weight: 700;
+    color: #007aff;
+}
+
+/* ---------------------------------------------------------
+   HEATMAP TABLES
+--------------------------------------------------------- */
+.dataframe td, .dataframe th {
+    text-align: center !important;
+}
