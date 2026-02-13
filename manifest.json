@@ -1,21 +1,20 @@
 {
   "name": "Tornei Padel",
-  "short_name": "TP",
+  "short_name": "Padel",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#00A86B",
+  "background_color": "#ffffff",
+  "theme_color": "#1e90ff",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "static/torneipadel192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icon-512.png",
+      "src": "static/torneipadel512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-

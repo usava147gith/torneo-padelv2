@@ -1,10 +1,7 @@
-self.addEventListener("install", event => {
+self.addEventListener("install", () => {
   self.skipWaiting();
 });
 
-self.addEventListener("activate", event => {
+self.addEventListener("activate", () => {
   clients.claim();
 });
-
-// Non intercetta le richieste Streamlit → nessun blocco WebSocket
-self.addEventListener("fetch", event => {});
