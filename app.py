@@ -8,7 +8,9 @@ st.set_page_config(
     page_icon="static/torneipadel192.png",
     layout="wide"
 )
-
+st.markdown("""
+<link rel="apple-touch-icon" sizes="180x180" href="static/logo180.png">
+""", unsafe_allow_html=True)
 # ---------------------------------------------------------
 # SCRITTA "MENU" ACCANTO ALL’ICONA DELLA SIDEBAR
 # (versione compatibile con Streamlit 1.30+)
@@ -217,3 +219,4 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
+
