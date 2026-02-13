@@ -5,100 +5,124 @@ import streamlit as st
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Tornei Padel",
-    page_icon="🎾",
+    page_icon="static/torneipadel192.png",
     layout="wide"
 )
-st.markdown("""
-    <style>
-    /* Etichette degli input più grandi e leggibili */
-    label, .stTextInput label, .stSelectbox label {
-        font-size: 1.15rem !important;
-        font-weight: 600 !important;
-        color: #333 !important;
-    }
 
-    /* Testo dentro gli input */
-    input[type="text"], input[type="number"] {
-        font-size: 1.1rem !important;
-        padding: 8px 10px !important;
-    }
-
-    /* Selectbox */
-    .stSelectbox div[data-baseweb="select"] > div {
-        font-size: 1.1rem !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <style>
-    /* Header tabella */
-    .dataframe th {
-        font-size: 1.2rem !important;
-        font-weight: 700 !important;
-        background-color: #f2f2f2 !important;
-        padding: 12px !important;
-        text-align: center !important;
-    }
-
-    /* Celle tabella */
-    .dataframe td {
-        font-size: 1.1rem !important;
-        padding: 10px !important;
-        text-align: center !important;
-    }
-
-    /* Spaziatura tra le righe */
-    .dataframe {
-        border-collapse: separate !important;
-        border-spacing: 0 8px !important;
-    }
-
-    /* Effetto card sulle righe */
-    .dataframe tbody tr {
-        background-color: #ffffff !important;
-        border-radius: 10px !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;
-    }
-
-    /* Hover */
-    .dataframe tbody tr:hover {
-        background-color: #fafafa !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# 🔥 PWA
-st.markdown("""
-<link rel="manifest" href="manifest.json">
-
-<script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register("service-worker.js");
-    });
-}
-</script>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<link rel="manifest" href="manifest.json">
-
-<script>
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register("service-worker.js");
-    });
-}
-</script>
-""", unsafe_allow_html=True)
 # ---------------------------------------------------------
-# ONBOARDING INIZIALE (VERSIONE SICURA)
+# SCRITTA "MENU" ACCANTO ALL’ICONA DELLA SIDEBAR
+# (versione compatibile con Streamlit 1.30+)
+# ---------------------------------------------------------
+st.markdown("""
+<style>
+
+/* Scritta MENU accanto al pulsante della sidebar */
+[data-testid="collapsedControl"] button svg {
+    margin-right: 6px;
+}
+
+[data-testid="collapsedControl"] button::after {
+    content: " Menu";
+    font-size: 16px;
+    font-weight: 600;
+    color: #444;
+}
+
+/* Allineamento */
+[data-testid="collapsedControl"] button {
+    display: flex;
+    align-items: center;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# VIEWPORT MOBILE
+# ---------------------------------------------------------
+st.markdown("""
+<meta name="viewport" content="width=device-width, initial-scale=1">
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# LOGO SIDEBAR
+# ---------------------------------------------------------
+st.sidebar.image("static/varcaturopadel.png", width=120)
+st.sidebar.title("🎾 Tornei Padel")
+
+# ---------------------------------------------------------
+# CSS ESTERNO
+# ---------------------------------------------------------
+with open("styles.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# CSS INLINE
+# ---------------------------------------------------------
+st.markdown("""
+<style>
+label, .stTextInput label, .stSelectbox label {
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
+input[type="text"], input[type="number"] {
+    font-size: 1.1rem !important;
+    padding: 8px 10px !important;
+}
+.stSelectbox div[data-baseweb="select"] > div {
+    font-size: 1.1rem !important;
+}
+.dataframe th {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    background-color: #f2f2f2 !important;
+    padding: 12px !important;
+    text-align: center !important;
+}
+.dataframe td {
+    font-size: 1.1rem !important;
+    padding: 10px !important;
+    text-align: center !important;
+}
+.dataframe {
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
+}
+.dataframe tbody tr {
+    background-color: #ffffff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08) !important;
+}
+.dataframe tbody tr:hover {
+    background-color: #fafafa !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# PWA (puoi rimuoverla se vuoi evitare conflitti)
+# ---------------------------------------------------------
+st.markdown("""
+<link rel="manifest" href="manifest.json">
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register("service-worker.js");
+    });
+}
+</script>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# ONBOARDING
 # ---------------------------------------------------------
 if "onboarding_done" not in st.session_state:
     st.session_state.onboarding_done = False
 
 if not st.session_state.onboarding_done:
+
+    st.image("static/varcaturopadel.png", width=90)
 
     st.markdown("""
     <div class="fade-in" style="
@@ -110,7 +134,6 @@ if not st.session_state.onboarding_done:
         margin: 4rem auto;
         box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
     ">
-        <div style="font-size: 64px; margin-bottom: 1rem; color: #34C759;">🎾</div>
         <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
         <p style="font-size: 17px; color: #6E6E73;">
             Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
@@ -125,48 +148,60 @@ if not st.session_state.onboarding_done:
     st.stop()
 
 # ---------------------------------------------------------
-# CSS ESTERNO (styles.css)
+# HEADER PAGINA PRINCIPALE
 # ---------------------------------------------------------
-with open("styles.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
+col1, col2 = st.columns([1, 10])
+with col1:
+    st.image("static/varcaturopadel.png", width=50)
+with col2:
+    st.markdown("<h1 style='margin:0;'>Tornei Padel</h1>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# IMPORT FUNZIONI TORNEI
+# IMPORT TORNEI
 # ---------------------------------------------------------
 from tornei.torneo_squadre import run as run_torneo_squadre
 from tornei.draft12 import run as run_draft12
 from tornei.draft16 import run as run_draft16
 from tornei.draft16_misto import run as run_draft16_misto
+from tornei.campionato import run_campionato
 
 # ---------------------------------------------------------
-# SIDEBAR iOS STYLE
+# SIDEBAR MENU
 # ---------------------------------------------------------
-st.sidebar.title("🎾Tornei Padel")
 st.sidebar.markdown("Seleziona il tipo di torneo")
-
 scelta = st.sidebar.radio(
     "Seleziona un torneo",
     [
         "Torneo a squadre",
         "Draft 12 giocatori",
         "Draft 16 giocatori",
-        "Draft misto 16 giocatori"
+        "Draft misto 16 giocatori",
+        "Campionato a squadre"
     ],
     label_visibility="collapsed"
 )
 
-
 st.sidebar.markdown("---")
-st.sidebar.info("V1.0 by UgoSavarese")
-
+st.sidebar.info("V1.0 by Ugo Savarese")
 
 # ---------------------------------------------------------
-# ROUTING TORNEI
+# ROUTING
 # ---------------------------------------------------------
+if scelta == "Campionato a squadre":
 
-if scelta == "Torneo a squadre":
-    run_torneo_squadre()
+    formato = st.sidebar.radio(
+        "Formato campionato",
+        ["12 squadre", "16 squadre", "20 squadre"]
+    )
+
+    if formato == "12 squadre":
+        run_campionato(num_squadre=12)
+    elif formato == "16 squadre":
+        run_campionato(num_squadre=16)
+    elif formato == "20 squadre":
+        run_campionato(num_squadre=20)
+
+    st.stop()
 
 elif scelta == "Draft 12 giocatori":
     run_draft12()
@@ -177,48 +212,8 @@ elif scelta == "Draft 16 giocatori":
 elif scelta == "Draft misto 16 giocatori":
     run_draft16_misto()
 
-# ---------------------------------------------------------
-# HOME PAGE (solo se nessun torneo è selezionato)
-# ---------------------------------------------------------
+elif scelta == "Torneo a squadre":
+    run_torneo_squadre()
+
 else:
-    st.title("🏆 Generatore Tornei Padel")
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
-
-    st.markdown("### Seleziona un torneo")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        <div class="mobile-card fade-in">
-            <div class="mobile-card-icon">👥</div>
-            <div class="mobile-card-title">Torneo a squadre</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-        <div class="mobile-card fade-in">
-            <div class="mobile-card-icon">🔢</div>
-            <div class="mobile-card-title">Draft 12</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    col3, col4 = st.columns(2)
-
-    with col3:
-        st.markdown("""
-        <div class="mobile-card fade-in">
-            <div class="mobile-card-icon">🎯</div>
-            <div class="mobile-card-title">Draft 16</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col4:
-        st.markdown("""
-        <div class="mobile-card fade-in">
-            <div class="mobile-card-icon">♀♂</div>
-            <div class="mobile-card-title">Draft misto</div>
-        </div>
-        """, unsafe_allow_html=True)
-
