@@ -41,47 +41,45 @@ st.markdown("""
 /* ----------------------------- */
 /* 1) BOTTONE 3D TORNEI PADEL    */
 /* ----------------------------- */
-.title-button {
-    display: inline-block;
-    background: linear-gradient(180deg, #1e88e5 0%, #1565c0 100%);
-    color: white;
-    padding: 16px 28px;
-    font-size: 32px;
-    font-weight: 800;
-    border-radius: 12px;
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0px 6px 0px #0d47a1;
-    transition: all 0.15s ease-in-out;
-    width: 100%;
+.title-container button {
+    background: linear-gradient(180deg, #1e88e5 0%, #1565c0 100%) !important;
+    color: white !important;
+    padding: 16px 28px !important;
+    font-size: 32px !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0px 6px 0px #0d47a1 !important;
+    transition: all 0.15s ease-in-out !important;
+    width: 100% !important;
 }
 
 /* Effetto pressione */
-.title-button:active {
-    box-shadow: 0px 2px 0px #0d47a1;
-    transform: translateY(4px);
+.title-container button:active {
+    box-shadow: 0px 2px 0px #0d47a1 !important;
+    transform: translateY(4px) !important;
 }
 
 /* Hover su desktop */
 @media (min-width: 600px) {
-    .title-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 8px 0px #0d47a1;
+    .title-container button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0px 8px 0px #0d47a1 !important;
     }
 }
 
 /* ----------------------------- */
 /* 2) MENU A SINISTRA            */
 /* ----------------------------- */
-button[kind="header"] {
+header [data-testid="stToolbar"] button {
     position: absolute !important;
     left: 10px !important;
     top: 10px !important;
     z-index: 9999 !important;
 }
 
-button[kind="header"]::after {
+header [data-testid="stToolbar"] button::after {
     content: " MENU";
     font-size: 18px;
     font-weight: 600;
@@ -90,21 +88,6 @@ button[kind="header"]::after {
 
 </style>
 """, unsafe_allow_html=True)
-
-# ---------------------------------------------------------
-# BOTTONE 3D CLICCABILE
-# ---------------------------------------------------------
-st.markdown(
-    """
-    <form action="#" method="post">
-        <button class='title-button' name='go_home'>Tornei Padel</button>
-    </form>
-    """,
-    unsafe_allow_html=True
-)
-
-if "go_home" in st.session_state:
-    st.session_state["page"] = "home"
 
 # ---------------------------------------------------------
 # VIEWPORT MOBILE
@@ -208,6 +191,16 @@ if not st.session_state.onboarding_done:
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.stop()
+
+# ---------------------------------------------------------
+# BOTTONE 3D "TORNEI PADEL" CENTRALE
+# ---------------------------------------------------------
+st.markdown("<div class='title-container'>", unsafe_allow_html=True)
+home_clicked = st.button("Tornei Padel", key="home_button")
+st.markdown("</div>", unsafe_allow_html=True)
+
+if home_clicked:
+    st.session_state["page"] = "home"
 
 # ---------------------------------------------------------
 # HEADER PAGINA PRINCIPALE
