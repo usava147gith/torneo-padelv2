@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 st.markdown("""
-<link rel="apple-touch-icon" sizes="180x180" href="static/logo180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel180.png">
 """, unsafe_allow_html=True)
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
@@ -123,9 +123,9 @@ if not st.session_state.onboarding_done:
 
     st.markdown("""
     <div style="text-align:center; margin-top:40px;">
-        <img src="static/torneipadel192.png" width="140" style="margin-bottom:20px;">
+        <img src="static/torneipadel192.png" width="80" style="margin-bottom:20px;">
         <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
-        <p style="font-size: 17px; color: #6E6E73;">
+        <p style="font-size: 15px; color: #6E6E73;">
             Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
         </p>
     </div>
@@ -210,4 +210,5 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
+
 
