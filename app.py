@@ -9,6 +9,10 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown("""
+<link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel192.png">
+""", unsafe_allow_html=True)
+
 # ---------------------------------------------------------
 # CSS START VERDE (CORRETTO)
 # ---------------------------------------------------------
@@ -47,8 +51,6 @@ button.start-btn:active {
 </style>
 """, unsafe_allow_html=True)
 
-
-
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
 # ---------------------------------------------------------
@@ -71,8 +73,6 @@ td, th {
 }
 </style>
 """, unsafe_allow_html=True)
-
-
 
 # ---------------------------------------------------------
 # VIEWPORT MOBILE
@@ -152,7 +152,7 @@ if ('serviceWorker' in navigator) {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# ONBOARDING CENTRATO (VERSIONE DEFINITIVA)
+# ONBOARDING CENTRATO
 # ---------------------------------------------------------
 if "onboarding_done" not in st.session_state:
     st.session_state.onboarding_done = False
@@ -164,12 +164,12 @@ if not st.session_state.onboarding_done:
     st.image("static/torneipadel192.png", width=120)
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # Bottone "Start" centrato con stile 3D verde
+    # Bottone Start centrato
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         start_clicked = st.button("Start", key="start_button")
 
-    # Applica la classe CSS al bottone Streamlit
+    # Applica stile 3D verde al bottone Streamlit
     st.markdown("""
     <script>
     const btn = window.parent.document.querySelector('button[kind="secondary"]');
@@ -180,7 +180,6 @@ if not st.session_state.onboarding_done:
     if start_clicked:
         st.session_state.onboarding_done = True
         st.rerun()
-
 
     st.stop()
 
