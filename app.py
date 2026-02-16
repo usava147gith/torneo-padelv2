@@ -9,6 +9,9 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown("""
+<link rel="apple-touch-icon" sizes="180x180" href="static/logo180.png">
+""", unsafe_allow_html=True)
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
 # ---------------------------------------------------------
@@ -32,62 +35,6 @@ td, th {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# CSS BOTTONE 3D + MENU A SINISTRA
-# ---------------------------------------------------------
-st.markdown("""
-<style>
-
-/* ----------------------------- */
-/* 1) BOTTONE 3D TORNEI PADEL    */
-/* ----------------------------- */
-.title-container button {
-    background: linear-gradient(180deg, #1e88e5 0%, #1565c0 100%) !important;
-    color: white !important;
-    padding: 16px 28px !important;
-    font-size: 32px !important;
-    font-weight: 800 !important;
-    border-radius: 12px !important;
-    border: none !important;
-    cursor: pointer !important;
-    box-shadow: 0px 6px 0px #0d47a1 !important;
-    transition: all 0.15s ease-in-out !important;
-    width: 100% !important;
-}
-
-/* Effetto pressione */
-.title-container button:active {
-    box-shadow: 0px 2px 0px #0d47a1 !important;
-    transform: translateY(4px) !important;
-}
-
-/* Hover su desktop */
-@media (min-width: 600px) {
-    .title-container button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0px 8px 0px #0d47a1 !important;
-    }
-}
-
-/* ----------------------------- */
-/* 2) MENU A SINISTRA            */
-/* ----------------------------- */
-header [data-testid="stToolbar"] button {
-    position: absolute !important;
-    left: 10px !important;
-    top: 10px !important;
-    z-index: 9999 !important;
-}
-
-header [data-testid="stToolbar"] button::after {
-    content: " MENU";
-    font-size: 18px;
-    font-weight: 600;
-    margin-left: 6px;
-}
-
-</style>
-""", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
 # VIEWPORT MOBILE
@@ -192,15 +139,6 @@ if not st.session_state.onboarding_done:
 
     st.stop()
 
-# ---------------------------------------------------------
-# BOTTONE 3D "TORNEI PADEL" CENTRALE
-# ---------------------------------------------------------
-st.markdown("<div class='title-container'>", unsafe_allow_html=True)
-home_clicked = st.button("Tornei Padel", key="home_button")
-st.markdown("</div>", unsafe_allow_html=True)
-
-if home_clicked:
-    st.session_state["page"] = "home"
 
 # ---------------------------------------------------------
 # HEADER PAGINA PRINCIPALE
