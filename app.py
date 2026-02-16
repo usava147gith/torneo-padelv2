@@ -152,7 +152,7 @@ if ('serviceWorker' in navigator) {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# ONBOARDING CENTRATO
+# ONBOARDING CENTRATO COMPLETO
 # ---------------------------------------------------------
 if "onboarding_done" not in st.session_state:
     st.session_state.onboarding_done = False
@@ -163,6 +163,16 @@ if not st.session_state.onboarding_done:
     st.markdown("<div style='text-align:center; margin-top:40px;'>", unsafe_allow_html=True)
     st.image("static/torneipadel192.png", width=120)
     st.markdown("</div>", unsafe_allow_html=True)
+
+    # Testo di benvenuto centrato
+    st.markdown("""
+    <div style="text-align:center; margin-top:10px;">
+        <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
+        <p style="font-size: 15px; color: #6E6E73; margin-top:0;">
+            Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
     # Bottone Start centrato
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -182,6 +192,7 @@ if not st.session_state.onboarding_done:
         st.rerun()
 
     st.stop()
+
 
 # ---------------------------------------------------------
 # HEADER PAGINA PRINCIPALE
