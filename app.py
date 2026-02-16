@@ -9,37 +9,91 @@ st.set_page_config(
     layout="wide"
 )
 
+# ---------------------------------------------------------
+# CSS AUTOSIZE TABELLA
+# ---------------------------------------------------------
 st.markdown("""
-<link rel="apple-touch-icon" sizes="180x180" href="static/logo180.png">
+<style>
+table {
+    width: 100% !important;
+}
+
+td, th {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    max-width: 120px;
+}
+
+@media (max-width: 600px) {
+    td, th {
+        font-size: 13px !important;
+    }
+}
+</style>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# SCRITTA "MENU" ACCANTO ALL’ICONA DELLA SIDEBAR
-# (versione compatibile con Streamlit 1.30+)
+# CSS BOTTONE 3D + MENU
 # ---------------------------------------------------------
 st.markdown("""
 <style>
 
-/* Scritta MENU accanto al pulsante della sidebar */
-[data-testid="collapsedControl"] button svg {
-    margin-right: 6px;
+/* ----------------------------- */
+/* 1) BOTTONE 3D TORNEI PADEL    */
+/* ----------------------------- */
+.title-button {
+    display: inline-block;
+    background: linear-gradient(180deg, #1e88e5 0%, #1565c0 100%);
+    color: white;
+    padding: 16px 28px;
+    font-size: 32px;
+    font-weight: 800;
+    border-radius: 12px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 6px 0px #0d47a1;
+    transition: all 0.15s ease-in-out;
+    width: 100%;
 }
 
-[data-testid="collapsedControl"] button::after {
-    content: " Menu";
-    font-size: 16px;
+/* Effetto pressione */
+.title-button:active {
+    box-shadow: 0px 2px 0px #0d47a1;
+    transform: translateY(4px);
+}
+
+/* Hover su desktop */
+@media (min-width: 600px) {
+    .title-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 8px 0px #0d47a1;
+    }
+}
+
+/* ----------------------------- */
+/* 2) SCRITTA MENU VISIBILE      */
+/* ----------------------------- */
+button[kind="header"]::after {
+    content: " MENU";
+    font-size: 18px;
     font-weight: 600;
-    color: #444;
-}
-
-/* Allineamento */
-[data-testid="collapsedControl"] button {
-    display: flex;
-    align-items: center;
+    margin-left: 6px;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# BOTTONE 3D CLICCABILE
+# ---------------------------------------------------------
+st.markdown(
+    "<button class='title-button'>Tornei Padel</button>",
+    unsafe_allow_html=True
+)
+
+if st.button(" ", key="title_click"):
+    st.session_state["page"] = "home"
 
 # ---------------------------------------------------------
 # VIEWPORT MOBILE
@@ -51,7 +105,7 @@ st.markdown("""
 # ---------------------------------------------------------
 # LOGO SIDEBAR
 # ---------------------------------------------------------
-st.sidebar.image("static/torneipadel320.png", width=120)
+st.sidebar.image("static/torneipadel320.png.png", width=120)
 st.sidebar.title("🎾 Tornei Padel")
 
 # ---------------------------------------------------------
@@ -105,7 +159,7 @@ input[type="text"], input[type="number"] {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# PWA (puoi rimuoverla se vuoi evitare conflitti)
+# PWA
 # ---------------------------------------------------------
 st.markdown("""
 <link rel="manifest" href="manifest.json">
@@ -126,7 +180,7 @@ if "onboarding_done" not in st.session_state:
 
 if not st.session_state.onboarding_done:
 
-    st.image("static/torneipadel320.png", width=90)
+    st.image("static/torneipadel320.png.png", width=90)
 
     st.markdown("""
     <div class="fade-in" style="
@@ -156,7 +210,7 @@ if not st.session_state.onboarding_done:
 # ---------------------------------------------------------
 col1, col2 = st.columns([1, 10])
 with col1:
-    st.image("static/torneipadel320.png", width=50)
+    st.image("static/torneipadel320.png.png", width=50)
 with col2:
     st.markdown("<h1 style='margin:0;'>Tornei Padel</h1>", unsafe_allow_html=True)
 
@@ -221,4 +275,3 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
-
