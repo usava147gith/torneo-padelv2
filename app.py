@@ -105,7 +105,7 @@ st.markdown("""
 # ---------------------------------------------------------
 # LOGO SIDEBAR
 # ---------------------------------------------------------
-st.sidebar.image("static/torneipadel320.png.png", width=120)
+st.sidebar.image("static/torneipadel320.png", width=120)
 st.sidebar.title("🎾 Tornei Padel")
 
 # ---------------------------------------------------------
@@ -180,7 +180,7 @@ if "onboarding_done" not in st.session_state:
 
 if not st.session_state.onboarding_done:
 
-    st.image("static/torneipadel320.png.png", width=90)
+    st.image("static/torneipadel320.png", width=90)
 
     st.markdown("""
     <div class="fade-in" style="
@@ -210,7 +210,7 @@ if not st.session_state.onboarding_done:
 # ---------------------------------------------------------
 col1, col2 = st.columns([1, 10])
 with col1:
-    st.image("static/torneipadel320.png.png", width=50)
+    st.image("static/torneipadel320.png", width=50)
 with col2:
     st.markdown("<h1 style='margin:0;'>Tornei Padel</h1>", unsafe_allow_html=True)
 
