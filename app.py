@@ -12,6 +12,45 @@ st.set_page_config(
 st.markdown("""
 <link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel192.png">
 """, unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# CSS START VERDE
+# ---------------------------------------------------------
+st.markdown("""
+<style>
+
+/* ----------------------------- */
+/* 3) BOTTONE 3D VERDE START     */
+/* ----------------------------- */
+.start-button {
+    background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%) !important;
+    color: white !important;
+    padding: 14px 26px !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    border-radius: 12px !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0px 6px 0px #1e8449 !important;
+    transition: all 0.15s ease-in-out !important;
+    width: 100% !important;
+}
+
+.start-button:active {
+    box-shadow: 0px 2px 0px #1e8449 !important;
+    transform: translateY(4px) !important;
+}
+
+@media (min-width: 600px) {
+    .start-button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0px 8px 0px #1e8449 !important;
+    }
+}
+
+</style>
+""", unsafe_allow_html=True)
+
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
 # ---------------------------------------------------------
@@ -34,6 +73,7 @@ td, th {
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ---------------------------------------------------------
@@ -136,10 +176,15 @@ if not st.session_state.onboarding_done:
     </div>
     """, unsafe_allow_html=True)
 
-    # Bottone centrato con colonne Streamlit
+    # Bottone "Start" centrato con stile 3D verde
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("Inizia", key="start_button"):
+        start_html = """
+        <button class="start-button">Start</button>
+        """
+        clicked = st.markdown(start_html, unsafe_allow_html=True)
+
+        if st.button(" ", key="start_button_hidden"):
             st.session_state.onboarding_done = True
             st.rerun()
 
