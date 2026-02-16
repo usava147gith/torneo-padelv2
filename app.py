@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 st.markdown("""
-<link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel192.png">
 """, unsafe_allow_html=True)
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
@@ -210,5 +210,6 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
+
 
 
