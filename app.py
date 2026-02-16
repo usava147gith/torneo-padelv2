@@ -114,16 +114,21 @@ if ('serviceWorker' in navigator) {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# ONBOARDING CENTRATO
+# ONBOARDING CENTRATO (VERSIONE DEFINITIVA)
 # ---------------------------------------------------------
 if "onboarding_done" not in st.session_state:
     st.session_state.onboarding_done = False
 
 if not st.session_state.onboarding_done:
 
+    # Logo centrato
+    st.markdown("<div style='text-align:center; margin-top:40px;'>", unsafe_allow_html=True)
+    st.image("static/torneipadel192.png", width=120)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    # Testo centrato
     st.markdown("""
-    <div style="text-align:center; margin-top:40px;">
-        <img src="static/torneipadel192.png" width="80" style="margin-bottom:20px;">
+    <div style="text-align:center;">
         <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
         <p style="font-size: 15px; color: #6E6E73;">
             Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
@@ -131,14 +136,14 @@ if not st.session_state.onboarding_done:
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
-    if st.button("Inizia", key="start_button"):
-        st.session_state.onboarding_done = True
-        st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
+    # Bottone centrato con colonne Streamlit
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("Inizia", key="start_button"):
+            st.session_state.onboarding_done = True
+            st.rerun()
 
     st.stop()
-
 
 # ---------------------------------------------------------
 # HEADER PAGINA PRINCIPALE
@@ -210,6 +215,3 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
-
-
-
