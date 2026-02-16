@@ -33,7 +33,7 @@ td, th {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# CSS BOTTONE 3D + MENU
+# CSS BOTTONE 3D + MENU A SINISTRA
 # ---------------------------------------------------------
 st.markdown("""
 <style>
@@ -72,8 +72,15 @@ st.markdown("""
 }
 
 /* ----------------------------- */
-/* 2) SCRITTA MENU VISIBILE      */
+/* 2) MENU A SINISTRA            */
 /* ----------------------------- */
+button[kind="header"] {
+    position: absolute !important;
+    left: 10px !important;
+    top: 10px !important;
+    z-index: 9999 !important;
+}
+
 button[kind="header"]::after {
     content: " MENU";
     font-size: 18px;
@@ -88,11 +95,15 @@ button[kind="header"]::after {
 # BOTTONE 3D CLICCABILE
 # ---------------------------------------------------------
 st.markdown(
-    "<button class='title-button'>Tornei Padel</button>",
+    """
+    <form action="#" method="post">
+        <button class='title-button' name='go_home'>Tornei Padel</button>
+    </form>
+    """,
     unsafe_allow_html=True
 )
 
-if st.button(" ", key="title_click"):
+if "go_home" in st.session_state:
     st.session_state["page"] = "home"
 
 # ---------------------------------------------------------
@@ -173,25 +184,16 @@ if ('serviceWorker' in navigator) {
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# ONBOARDING
+# ONBOARDING CENTRATO
 # ---------------------------------------------------------
 if "onboarding_done" not in st.session_state:
     st.session_state.onboarding_done = False
 
 if not st.session_state.onboarding_done:
 
-    st.image("static/torneipadel320.png", width=90)
-
     st.markdown("""
-    <div class="fade-in" style="
-        background: white;
-        padding: 2rem;
-        border-radius: 20px;
-        text-align: center;
-        max-width: 400px;
-        margin: 4rem auto;
-        box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
-    ">
+    <div style="text-align:center; margin-top:40px;">
+        <img src="static/torneipadel320.png" width="140" style="margin-bottom:20px;">
         <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
         <p style="font-size: 17px; color: #6E6E73;">
             Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
@@ -199,9 +201,11 @@ if not st.session_state.onboarding_done:
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("Inizia"):
+    st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
+    if st.button("Inizia", key="start_button"):
         st.session_state.onboarding_done = True
         st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
 
     st.stop()
 
