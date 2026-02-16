@@ -9,20 +9,14 @@ st.set_page_config(
     layout="wide"
 )
 
-st.markdown("""
-<link rel="apple-touch-icon" sizes="180x180" href="static/torneipadel192.png">
-""", unsafe_allow_html=True)
-
 # ---------------------------------------------------------
-# CSS START VERDE
+# CSS START VERDE (CORRETTO)
 # ---------------------------------------------------------
 st.markdown("""
 <style>
 
-/* ----------------------------- */
-/* 3) BOTTONE 3D VERDE START     */
-/* ----------------------------- */
-.start-button {
+/* BOTTONE 3D VERDE START (Streamlit button) */
+button.start-btn {
     background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%) !important;
     color: white !important;
     padding: 14px 26px !important;
@@ -36,13 +30,15 @@ st.markdown("""
     width: 100% !important;
 }
 
-.start-button:active {
+/* Effetto pressione */
+button.start-btn:active {
     box-shadow: 0px 2px 0px #1e8449 !important;
     transform: translateY(4px) !important;
 }
 
+/* Hover su desktop */
 @media (min-width: 600px) {
-    .start-button:hover {
+    button.start-btn:hover {
         transform: translateY(-2px) !important;
         box-shadow: 0px 8px 0px #1e8449 !important;
     }
@@ -50,6 +46,8 @@ st.markdown("""
 
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # ---------------------------------------------------------
 # CSS AUTOSIZE TABELLA
@@ -166,27 +164,23 @@ if not st.session_state.onboarding_done:
     st.image("static/torneipadel192.png", width=120)
     st.markdown("</div>", unsafe_allow_html=True)
 
-    # Testo centrato
-    st.markdown("""
-    <div style="text-align:center;">
-        <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
-        <p style="font-size: 15px; color: #6E6E73;">
-            Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
     # Bottone "Start" centrato con stile 3D verde
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        start_html = """
-        <button class="start-button">Start</button>
-        """
-        clicked = st.markdown(start_html, unsafe_allow_html=True)
+        start_clicked = st.button("Start", key="start_button")
 
-        if st.button(" ", key="start_button_hidden"):
-            st.session_state.onboarding_done = True
-            st.rerun()
+    # Applica la classe CSS al bottone Streamlit
+    st.markdown("""
+    <script>
+    const btn = window.parent.document.querySelector('button[kind="secondary"]');
+    if (btn) { btn.classList.add('start-btn'); }
+    </script>
+    """, unsafe_allow_html=True)
+
+    if start_clicked:
+        st.session_state.onboarding_done = True
+        st.rerun()
+
 
     st.stop()
 
