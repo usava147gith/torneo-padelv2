@@ -123,7 +123,7 @@ if not st.session_state.onboarding_done:
 
     st.markdown("""
     <div style="text-align:center; margin-top:40px;">
-        <img src="static/torneipadel320.png" width="140" style="margin-bottom:20px;">
+        <img src="static/torneipadel192.png" width="140" style="margin-bottom:20px;">
         <h2 style="margin-bottom: 0.5rem;">Benvenuto in Tornei Padel</h2>
         <p style="font-size: 17px; color: #6E6E73;">
             Organizza tornei, crea squadre e genera partite in modo semplice e veloce.
@@ -210,3 +210,4 @@ elif scelta == "Torneo a squadre":
 
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
+
