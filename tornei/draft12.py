@@ -5,13 +5,18 @@ import json
 from io import BytesIO
 
 
-def get_solver(num_turni):
-    if num_turni == 8:
+def get_solver(modalita, num_turni):
+    if modalita == "8 turni":
         from .logiche.logica_draft12_8turni import solve_draft12
-    else:
-        from .logiche.logica_draft12_11turni import solve_draft12
-    return solve_draft12
+        return solve_draft12
 
+    if modalita == "11 turni":
+        from .logiche.logica_draft12_11turni import solve_draft12
+        return solve_draft12
+
+    # NUOVA MODALITÀ
+    from .logiche.logica_draft12_DS import solve_draft12_DS
+    return solve_draft12_DS
 
 
 # ---------------------------------------------------------
@@ -163,14 +168,27 @@ def run():
 
     giocatori = st.session_state.draft12_giocatori
 
-    num_turni = st.selectbox("Numero di turni", [8, 11], index=0)
+    modalita = st.selectbox(
+        "Modalità Draft 12",
+        ["8 turni", "11 turni", "Destra/Sinistra (6 o 12 turni)"],
+        index=0
+    )
+
+    if modalita == "8 turni":
+        num_turni = 8
+    elif modalita == "11 turni":
+        num_turni = 11
+    else:
+        num_turni = st.selectbox("Turni D/S", [6, 12], index=0)
+
 
     # ---------------------------------------------------------
     # GENERA CALENDARIO
     # ---------------------------------------------------------
     if st.button("Genera calendario draft 12"):
-        solve = get_solver(num_turni)
+        solve = get_solver(modalita, num_turni)
         st.session_state.draft12_calendario = solve(giocatori, num_turni)
+
 
         st.session_state.draft12_risultati = [""] * len(st.session_state.draft12_calendario)
 
