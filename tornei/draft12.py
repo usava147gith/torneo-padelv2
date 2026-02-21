@@ -14,7 +14,7 @@ def get_solver(modalita, num_turni):
         from .logiche.logica_draft12_11turni import solve_draft12
         return solve_draft12
 
-    # NUOVA MODALITÀ
+    # NUOVA MODALITÀ D/S
     from .logiche.logica_draft12_DS import solve_draft12_DS
     return solve_draft12_DS
 
@@ -34,7 +34,6 @@ def render_match_card(turno, campo, coppiaA, coppiaB, risultato):
     """,
         unsafe_allow_html=True,
     )
-
 
 
 def render_classifica(df):
@@ -168,27 +167,50 @@ def run():
 
     giocatori = st.session_state.draft12_giocatori
 
+    # ---------------------------------------------------------
+    # MODALITÀ
+    # ---------------------------------------------------------
     modalita = st.selectbox(
         "Modalità Draft 12",
-        ["8 turni", "11 turni", "Destra/Sinistra (6 o 12 turni)"],
+        ["8 turni", "11 turni", "Destra/Sinistra"],
         index=0
     )
 
-    if modalita == "8 turni":
-        num_turni = 8
-    elif modalita == "11 turni":
-        num_turni = 11
-    else:
+    if modalita == "Destra/Sinistra":
+        st.subheader("Assegna lato ai giocatori")
+
+        col_dx, col_sx = st.columns(2)
+
+        with col_dx:
+            dx = st.multiselect("Giocatori di destra (6)", giocatori)
+
+        with col_sx:
+            sx = st.multiselect("Giocatori di sinistra (6)", giocatori)
+
+        if len(dx) != 6 or len(sx) != 6:
+            st.warning("Seleziona esattamente 6 destri e 6 sinistri")
+            st.stop()
+
+        if set(dx) & set(sx):
+            st.error("Un giocatore non può essere sia destro che sinistro")
+            st.stop()
+
         num_turni = st.selectbox("Turni D/S", [6, 12], index=0)
 
+    else:
+        num_turni = int(modalita.split()[0])
+        dx, sx = None, None
 
     # ---------------------------------------------------------
     # GENERA CALENDARIO
     # ---------------------------------------------------------
     if st.button("Genera calendario draft 12"):
         solve = get_solver(modalita, num_turni)
-        st.session_state.draft12_calendario = solve(giocatori, num_turni)
 
+        if modalita == "Destra/Sinistra":
+            st.session_state.draft12_calendario = solve(dx, sx, num_turni)
+        else:
+            st.session_state.draft12_calendario = solve(giocatori, num_turni)
 
         st.session_state.draft12_risultati = [""] * len(st.session_state.draft12_calendario)
 
@@ -248,24 +270,20 @@ def run():
     st.subheader("🏆 Classifica")
 
     df_classifica = calcola_classifica(df_cal, giocatori)
-
-    # Tabella leggibile con CSS migliorato
     st.dataframe(df_classifica, use_container_width=True)
 
     # ---------------------------------------------------------
-    # TOOLBAR (ONE-CLICK)
+    # TOOLBAR
     # ---------------------------------------------------------
     st.subheader("Azioni torneo")
 
     colA, colB, colC = st.columns(3)
 
-    # 🔄 RIGENERA TORNEO
     with colA:
         if st.button("🔄 Rigenera torneo"):
             st.session_state.clear()
             st.rerun()
 
-    # 💾 SALVA TORNEO
     with colB:
         data = {
             "giocatori": giocatori,
@@ -280,7 +298,6 @@ def run():
             key="download_json",
         )
 
-    # 📊 ESPORTA EXCEL
     with colC:
         output = BytesIO()
         with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
