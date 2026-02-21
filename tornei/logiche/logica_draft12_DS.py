@@ -17,7 +17,7 @@ def generate_ds_rounds(right_players, left_players):
 
 
 # ---------------------------------------------------------
-# 2. Pattern avversari per i primi 6 turni
+# 2. Pattern avversari
 # ---------------------------------------------------------
 PATTERN_6 = [
     [(0,1),(2,3),(4,5)],
@@ -28,9 +28,6 @@ PATTERN_6 = [
     [(1,5),(0,4),(2,3)],
 ]
 
-# ---------------------------------------------------------
-# 3. Pattern avversari per i turni 7–12
-# ---------------------------------------------------------
 PATTERN_12 = [
     [(0,2),(1,4),(3,5)],
     [(0,3),(1,5),(2,4)],
@@ -42,39 +39,44 @@ PATTERN_12 = [
 
 
 # ---------------------------------------------------------
-# 4. Controllo validità pattern (team + giocatori)
+# 3. Calcolo del “costo” di un pattern
 # ---------------------------------------------------------
-def is_pattern_valid(turno, pattern, team_clash, player_clash, max_clash=2):
+def pattern_cost(turno, pattern, team_clash, player_clash):
+    cost = 0
+
     for a, b in pattern:
         tA = turno[a]
         tB = turno[b]
 
-        # controllo team-team
+        # team-team
         key_team = tuple(sorted([tA, tB]))
-        if team_clash.get(key_team, 0) >= max_clash:
-            return False
+        cost += team_clash.get(key_team, 0)
 
-        # controllo giocatore-giocatore
+        # player-player
         A1, A2 = tA
         B1, B2 = tB
         for pA in [A1, A2]:
             for pB in [B1, B2]:
                 key_player = tuple(sorted([pA, pB]))
-                if player_clash.get(key_player, 0) >= max_clash:
-                    return False
+                cost += player_clash.get(key_player, 0)
 
-    return True
+    return cost
 
 
-def choose_valid_pattern(turno, patterns, team_clash, player_clash, max_clash=2):
-    # prova prima i pattern che rispettano tutti i vincoli
+# ---------------------------------------------------------
+# 4. Scegli il pattern con costo minimo
+# ---------------------------------------------------------
+def choose_best_pattern(turno, patterns, team_clash, player_clash):
+    best = None
+    best_cost = float("inf")
+
     for pattern in patterns:
-        if is_pattern_valid(turno, pattern, team_clash, player_clash, max_clash):
-            return pattern
+        c = pattern_cost(turno, pattern, team_clash, player_clash)
+        if c < best_cost:
+            best_cost = c
+            best = pattern
 
-    # se nessuno rispetta pienamente, accetta il "meno peggio":
-    # qui puoi anche tenere semplicemente il primo pattern
-    return patterns[0]
+    return best
 
 
 # ---------------------------------------------------------
@@ -85,13 +87,13 @@ def solve_draft12_DS(right_players, left_players, num_turni):
     base_rounds = generate_ds_rounds(right_players, left_players)
     schedule = []
 
-    team_clash = {}     # (teamA, teamB) → count
-    player_clash = {}   # (playerA, playerB) → count
+    team_clash = {}
+    player_clash = {}
 
     # primi 6 turni
     for turno_idx, turno in enumerate(base_rounds, start=1):
 
-        pattern = choose_valid_pattern(turno, PATTERN_6, team_clash, player_clash)
+        pattern = choose_best_pattern(turno, PATTERN_6, team_clash, player_clash)
 
         for campo_idx, (a, b) in enumerate(pattern, start=1):
             tA = turno[a]
@@ -116,11 +118,11 @@ def solve_draft12_DS(right_players, left_players, num_turni):
                 "Coppia B": f"{B1} & {B2}",
             })
 
-    # secondi 6 turni (se richiesti)
+    # secondi 6 turni
     if num_turni == 12:
         for turno_idx, turno in enumerate(base_rounds, start=7):
 
-            pattern = choose_valid_pattern(turno, PATTERN_12, team_clash, player_clash)
+            pattern = choose_best_pattern(turno, PATTERN_12, team_clash, player_clash)
 
             for campo_idx, (a, b) in enumerate(pattern, start=1):
                 tA = turno[a]
