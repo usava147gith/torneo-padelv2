@@ -210,6 +210,7 @@ from tornei.torneo_squadre import run as run_torneo_squadre
 from tornei.draft12 import run as run_draft12
 from tornei.draft16 import run as run_draft16
 from tornei.draft16_misto import run as run_draft16_misto
+from tornei.draft_DxSx import run as run_draft_dxsx
 from tornei.campionato import run_campionato
 
 # ---------------------------------------------------------
@@ -223,6 +224,7 @@ scelta = st.sidebar.radio(
         "Draft 12 giocatori",
         "Draft 16 giocatori",
         "Draft misto 16 giocatori",
+        "Draft Dx e SX",
         "Campionato a squadre"
     ],
     label_visibility="collapsed"
@@ -262,5 +264,8 @@ elif scelta == "Draft misto 16 giocatori":
 elif scelta == "Torneo a squadre":
     run_torneo_squadre()
 
+elif scelta == "Draft Dx e SX":
+    run_draft_dxsx()
+    
 else:
     st.markdown("Benvenuto! Scegli il tipo di torneo dalla barra laterale.")
