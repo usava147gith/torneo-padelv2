@@ -1,0 +1,8 @@
+<!-- EXPORT / IMPORT CONTROLS -->
+<div id="android-controls" style="margin:12px 0;">
+  <button onclick="exportTorneoJson()">Esporta JSON</button>
+  <button onclick="exportTorneoCsv()">Esporta CSV</button>
+  <button onclick="exportTabelloneCsv()">Esporta Tabellone</button>
+  <button onclick="document.getElementById('fileInput').click()">Importa JSON</button>
+  <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleJsonImport(event)">
+</div>
