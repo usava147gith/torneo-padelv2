@@ -1,36 +1,44 @@
+// Ensure global tournament object exists (prevents "torneo is not defined")
+window.torneo = window.torneo || { giocatori: [], partite: [], matches: [], tabellone: [] };
+
+// Helper to safely read torneo even if defined later
+function _getTorneo() {
+  return window.torneo || { giocatori: [], partite: [], matches: [], tabellone: [] };
+}
+
 // ===============================
 //  EXPORT / IMPORT FUNCTIONS FOR ANDROID + BROWSER
-//  Paste this at the end of script.js
 // ===============================
 
-/**
- * Utility: safe getter for players array (handles different naming)
- */
-function _getPlayersArray(torneo) {
-    if (!torneo) return [];
-    if (Array.isArray(torneo.giocatori)) return torneo.giocatori;
-    if (Array.isArray(torneo.players)) return torneo.players;
-    if (Array.isArray(torneo.partecipanti)) return torneo.partecipanti;
+function _getPlayersArray(t) {
+    if (!t) return [];
+    if (Array.isArray(t.giocatori)) return t.giocatori;
+    if (Array.isArray(t.players)) return t.players;
+    if (Array.isArray(t.partecipanti)) return t.partecipanti;
     return [];
 }
 
-/**
- * Utility: safe getter for matches/tabellone array
- */
-function _getMatchesArray(torneo) {
-    if (!torneo) return [];
-    if (Array.isArray(torneo.partite)) return torneo.partite;
-    if (Array.isArray(torneo.matches)) return torneo.matches;
-    if (Array.isArray(torneo.tabellone)) return torneo.tabellone;
+function _getMatchesArray(t) {
+    if (!t) return [];
+    if (Array.isArray(t.partite)) return t.partite;
+    if (Array.isArray(t.matches)) return t.matches;
+    if (Array.isArray(t.tabellone)) return t.tabellone;
     return [];
 }
 
-/**
- * EXPORT JSON
- */
+function _escapeCsvCell(value) {
+    if (value === null || value === undefined) return "";
+    const s = String(value);
+    if (s.includes('"') || s.includes(',') || s.includes('\n')) {
+        return `"${s.replace(/"/g, '""')}"`;
+    }
+    return s;
+}
+
 function exportTorneoJson() {
     try {
-        const json = JSON.stringify(torneo);
+        const t = _getTorneo();
+        const json = JSON.stringify(t);
         if (window.Android && typeof Android.exportJson === 'function') {
             Android.exportJson(json);
             return;
@@ -48,17 +56,15 @@ function exportTorneoJson() {
     }
 }
 
-/**
- * EXPORT CSV (giocatori e punteggi)
- */
 function exportTorneoCsv() {
     try {
-        const players = _getPlayersArray(torneo);
+        const t = _getTorneo();
+        const players = _getPlayersArray(t);
         let csv = "Giocatore,Punteggio\n";
         players.forEach(g => {
             const nome = g.nome || g.name || g.player || "";
             const punteggio = g.punteggio || g.score || g.points || "";
-            csv += `${nome},${punteggio}\n`;
+            csv += `${_escapeCsvCell(nome)},${_escapeCsvCell(punteggio)}\n`;
         });
 
         if (window.Android && typeof Android.exportCsv === 'function') {
@@ -79,21 +85,18 @@ function exportTorneoCsv() {
     }
 }
 
-/**
- * EXPORT TABELLONE COMPLETO
- * Adatta automaticamente a campi comuni: round, coppia1/coppia2, teamA/teamB, punteggio/score
- */
 function exportTabelloneCsv() {
     try {
-        const matches = _getMatchesArray(torneo);
+        const t = _getTorneo();
+        const matches = _getMatchesArray(t);
         let csv = "Round,Coppia 1,Coppia 2,Punteggio\n";
 
         matches.forEach(p => {
             const round = p.round || p.turno || p.stage || "";
-            const c1 = p.coppia1 || p.teamA || p.playerA || p.player1 || p.coupleA || "";
-            const c2 = p.coppia2 || p.teamB || p.playerB || p.player2 || p.coupleB || "";
+            const c1 = p.coppia1 || p.teamA || p.playerA || p.player1 || p.coupleA || p.team1 || "";
+            const c2 = p.coppia2 || p.teamB || p.playerB || p.player2 || p.coupleB || p.team2 || "";
             const score = p.punteggio || p.score || p.result || "";
-            csv += `${round},${c1},${c2},${score}\n`;
+            csv += `${_escapeCsvCell(round)},${_escapeCsvCell(c1)},${_escapeCsvCell(c2)},${_escapeCsvCell(score)}\n`;
         });
 
         if (window.Android && typeof Android.exportCsv === 'function') {
@@ -114,9 +117,6 @@ function exportTabelloneCsv() {
     }
 }
 
-/**
- * HANDLE FILE INPUT IMPORT (browser)
- */
 function handleJsonImport(event) {
     try {
         const file = event.target.files[0];
@@ -132,14 +132,10 @@ function handleJsonImport(event) {
     }
 }
 
-/**
- * IMPORT JSON into page data and refresh UI
- */
 function importaTorneo(jsonString) {
     try {
         const parsed = typeof jsonString === 'string' ? JSON.parse(jsonString) : jsonString;
-        // Replace tournament data
-        torneo = parsed;
+        window.torneo = parsed;
         if (typeof aggiornaUI === 'function') {
             aggiornaUI();
         } else {
@@ -150,3 +146,4 @@ function importaTorneo(jsonString) {
         alert("Errore parsing JSON: " + e.message);
     }
 }
+
